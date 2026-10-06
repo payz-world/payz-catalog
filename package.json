@@ -1,0 +1,30 @@
+{
+  "name": "payz-catalog",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    "./catalog": "./src/lib/catalog.ts",
+    "./catalog/errors": "./src/lib/catalog-errors.ts",
+    "./catalog/eligibility": "./src/lib/catalog-eligibility.ts",
+    "./catalog/provider": "./src/lib/bitrefill-catalog.ts",
+    "./catalog/snapshot": "./src/lib/catalog-snapshot.ts",
+    "./catalog/sync": "./src/lib/catalog-sync-job.ts",
+    "./currency": "./src/lib/currency-conversion.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "pnpm run test:unit",
+    "test:unit": "esbuild tests/featured-products.test.ts --bundle --platform=node --format=cjs --outfile=/tmp/payz-featured-products-tests.cjs && node --test /tmp/payz-featured-products-tests.cjs",
+    "test:integration": "esbuild tests/catalog-curation.test.ts --bundle --platform=node --format=cjs --external:pg-native --outfile=/tmp/payz-catalog-tests.cjs && NODE_ENV=production node --test /tmp/payz-catalog-tests.cjs"
+  },
+  "dependencies": {
+    "payz-core": "workspace:*",
+    "drizzle-orm": "^0.45.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.3",
+    "esbuild": "0.28.2",
+    "typescript": "~5.9.3"
+  }
+}
